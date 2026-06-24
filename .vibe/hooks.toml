@@ -1,0 +1,8 @@
+[[hooks]]
+name = "github-secret-scan"
+type = "before_tool"
+match = "github:*"
+strict = true
+command = "if git diff | grep -q -E '(API_KEY|SECRET|TOKEN|PASSWORD|PRIVATE_KEY)' || git diff --cached | grep -q -E '(API_KEY|SECRET|TOKEN|PASSWORD|PRIVATE_KEY)' || git diff HEAD | grep -q -E '(API_KEY|SECRET|TOKEN|PASSWORD|PRIVATE_KEY)'; then echo 'ERROR: Secrets detected in changes or staged files!'; exit 1; fi"
+timeout = 30.0
+description = "Block GitHub operations if secrets detected in workspace, staged files, or last commit"

@@ -1,7 +1,7 @@
 FROM python:3.12-slim
 
 # Install uv
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+RUN pip install uv
 
 # Create non-root user with /app owned by them
 RUN useradd --create-home appuser && mkdir -p /app && chown appuser:appuser /app

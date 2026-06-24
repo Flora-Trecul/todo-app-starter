@@ -1,0 +1,26 @@
+enable_experimental_hooks = true
+theme = "solarized-dark"
+
+[commands]
+"/test" = "cd api && uv run pytest"
+"/lint" = "bun run lint && cd api && uv run ruff check"
+
+[[mcp_servers]]
+name = "github"
+transport = "stdio"
+command = "npx"
+args = [
+    "-y",
+    "@modelcontextprotocol/server-github",
+]
+api_key_env = "GITHUB_PERSONAL_ACCESS_TOKEN"
+
+[[mcp_servers]]
+name = "filesystem"
+transport = "stdio"
+command = "npx"
+args = [
+    "-y",
+    "@modelcontextprotocol/server-filesystem",
+    ".",
+]

@@ -31,7 +31,6 @@ todo-app/
 │   ├── tsconfig.json                   # TypeScript configuration
 │   ├── .gitignore
 │   └── README.md
-├── .claude/                            # Claude Code configuration
 ├── .github/                            # GitHub configuration
 │   ├── workflows/                      # CI/CD workflows
 │   │   ├── lint.yml                    # Markdown and YAML linting
@@ -64,7 +63,6 @@ todo-app/
 ├── bun.lock                            # Bun lock file
 ├── commitlint.config.js                # Commit message validation
 ├── package.json                        # Bun config (linting, commits)
-├── pyproject.toml                      # Python project metadata
 ├── renovate.json                       # Renovate configuration
 ├── brief.md                            # Project specification (historical)
 ├── CLAUDE.md                           # AI assistant entry point
@@ -114,7 +112,6 @@ todo-app/
 | File | Purpose |
 |------|---------|
 | `package.json` | Bun dependencies (linting, commits), scripts |
-| `pyproject.toml` | Python project metadata and tooling |
 | `bun.lock` | Locked dependency versions |
 | `.gitmoji.json` | Gitmoji-cli configuration |
 | `.env.example` | Documents required environment variables |
