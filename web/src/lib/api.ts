@@ -1,5 +1,5 @@
 import { env } from '$env/dynamic/public';
-import type { Todo, TodoCreate, TodoUpdate } from './types';
+import type { Subtask, SubtaskCreate, SubtaskUpdate, Todo, TodoCreate, TodoUpdate } from './types';
 
 const BASE = env.PUBLIC_API_BASE || '/api';
 
@@ -24,5 +24,12 @@ export const api = {
 	updateTodo: (id: number, payload: TodoUpdate) =>
 		request<Todo>(`/todos/${id}`, { method: 'PUT', body: JSON.stringify(payload) }),
 	deleteTodo: (id: number) => request<void>(`/todos/${id}`, { method: 'DELETE' }),
-	listUpcomingReminders: () => request<Todo[]>('/reminders')
+	listUpcomingReminders: () => request<Todo[]>('/reminders'),
+	listSubtasks: (todoId: number) => request<Subtask[]>(`/todos/${todoId}/subtasks`),
+	createSubtask: (todoId: number, payload: SubtaskCreate) =>
+		request<Subtask>(`/todos/${todoId}/subtasks`, { method: 'POST', body: JSON.stringify(payload) }),
+	updateSubtask: (todoId: number, subtaskId: number, payload: SubtaskUpdate) =>
+		request<Subtask>(`/todos/${todoId}/subtasks/${subtaskId}`, { method: 'PUT', body: JSON.stringify(payload) }),
+	deleteSubtask: (todoId: number, subtaskId: number) =>
+		request<void>(`/todos/${todoId}/subtasks/${subtaskId}`, { method: 'DELETE' })
 };

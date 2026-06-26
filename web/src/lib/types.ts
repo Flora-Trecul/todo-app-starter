@@ -1,3 +1,23 @@
+export interface Subtask {
+	id: number;
+	todo_id: number;
+	title: string;
+	completed: boolean;
+	position: number;
+}
+
+export interface SubtaskCreate {
+	title: string;
+	completed?: boolean;
+	position?: number;
+}
+
+export interface SubtaskUpdate {
+	title?: string;
+	completed?: boolean;
+	position?: number;
+}
+
 export interface Todo {
 	id: number;
 	title: string;
@@ -6,6 +26,7 @@ export interface Todo {
 	reminder_date: string | null | undefined;
 	created_at: string;
 	updated_at: string | null;
+	subtasks?: Subtask[] | undefined;
 }
 
 export interface TodoCreate {

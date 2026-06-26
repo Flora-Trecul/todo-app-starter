@@ -35,3 +35,33 @@ class TodoResponse(TodoBase):
     updated_at: datetime | None = None
 
     model_config = {"from_attributes": True}
+
+
+# Subtask schemas
+class SubtaskBase(BaseModel):
+    """Shared fields for subtask operations."""
+
+    title: str = Field(..., min_length=1, max_length=200)
+    completed: bool = Field(default=False)
+    position: int = Field(default=0)
+
+
+class SubtaskCreate(SubtaskBase):
+    """Schema for creating a new subtask."""
+
+
+class SubtaskUpdate(BaseModel):
+    """Schema for updating an existing subtask. All fields optional."""
+
+    title: str | None = Field(None, min_length=1, max_length=200)
+    completed: bool | None = None
+    position: int | None = None
+
+
+class SubtaskResponse(SubtaskBase):
+    """Schema for subtask responses including database-generated fields."""
+
+    id: int
+    todo_id: int
+
+    model_config = {"from_attributes": True}

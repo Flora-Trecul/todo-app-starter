@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { api } from '$lib/api';
 	import TodoItem from '$lib/components/TodoItem.svelte';
-	import type { Filter, Todo, TodoUpdate } from '$lib/types';
+	import type { Filter, Subtask, SubtaskCreate, SubtaskUpdate, Todo, TodoUpdate } from '$lib/types';
 
 	let todos = $state<Todo[]>([]);
 	let loading = $state(true);
@@ -26,7 +26,18 @@
 		loading = true;
 		error = null;
 		try {
-			todos = await api.listTodos();
+			const loadedTodos = await api.listTodos();
+			// Load subtasks for each todo
+			todos = await Promise.all(
+				loadedTodos.map(async (todo) => {
+					try {
+						const subtasks = await api.listSubtasks(todo.id);
+						return { ...todo, subtasks };
+					} catch {
+						return todo;
+					}
+				})
+			);
 		} catch (e) {
 			error = e instanceof Error ? e.message : 'Failed to load tasks.';
 		} finally {
@@ -82,6 +93,60 @@
 		} catch (e) {
 			todos = previous;
 			error = e instanceof Error ? e.message : 'Failed to delete task.';
+		}
+	}
+
+	// Subtask handlers
+	async function toggleSubtask(todoId: number, subtaskId: number, completed: boolean) {
+		const todoIndex = todos.findIndex((t) => t.id === todoId);
+		if (todoIndex === -1) return;
+
+		const prevSubtasks = todos[todoIndex].subtasks || [];
+		todos[todoIndex] = {
+			...todos[todoIndex],
+			subtasks: prevSubtasks.map((s) => (s.id === subtaskId ? { ...s, completed } : s))
+		};
+
+		try {
+			await api.updateSubtask(todoId, subtaskId, { completed });
+		} catch (e) {
+			todos[todoIndex] = { ...todos[todoIndex], subtasks: prevSubtasks };
+			error = e instanceof Error ? e.message : 'Failed to update subtask.';
+		}
+	}
+
+	async function createSubtask(todoId: number, subtask: SubtaskCreate) {
+		const todoIndex = todos.findIndex((t) => t.id === todoId);
+		if (todoIndex === -1) return;
+
+		const prevSubtasks = todos[todoIndex].subtasks || [];
+
+		try {
+			const created = await api.createSubtask(todoId, subtask);
+			todos[todoIndex] = {
+				...todos[todoIndex],
+				subtasks: [...prevSubtasks, created]
+			};
+		} catch (e) {
+			error = e instanceof Error ? e.message : 'Failed to create subtask.';
+		}
+	}
+
+	async function deleteSubtask(todoId: number, subtaskId: number) {
+		const todoIndex = todos.findIndex((t) => t.id === todoId);
+		if (todoIndex === -1) return;
+
+		const prevSubtasks = todos[todoIndex].subtasks || [];
+		todos[todoIndex] = {
+			...todos[todoIndex],
+			subtasks: prevSubtasks.filter((s) => s.id !== subtaskId)
+		};
+
+		try {
+			await api.deleteSubtask(todoId, subtaskId);
+		} catch (e) {
+			todos[todoIndex] = { ...todos[todoIndex], subtasks: prevSubtasks };
+			error = e instanceof Error ? e.message : 'Failed to delete subtask.';
 		}
 	}
 
@@ -186,7 +251,15 @@
 	{:else}
 		<ul class="space-y-2">
 			{#each visibleTodos as todo (todo.id)}
-				<TodoItem {todo} onToggle={toggleTodo} onSave={saveTodo} onDelete={deleteTodo} />
+				<TodoItem
+					{todo}
+					onToggle={toggleTodo}
+					onSave={saveTodo}
+					onDelete={deleteTodo}
+					onToggleSubtask={toggleSubtask}
+					onCreateSubtask={createSubtask}
+					onDeleteSubtask={deleteSubtask}
+				/>
 			{/each}
 		</ul>
 	{/if}
