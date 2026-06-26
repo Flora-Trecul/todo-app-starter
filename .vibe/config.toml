@@ -4,6 +4,8 @@ theme = "solarized-dark"
 [commands]
 "/test" = "cd api && uv run pytest"
 "/lint" = "bun run lint && cd api && uv run ruff check"
+"/test:e2e" = "bun run test:e2e"
+"/docker:up" = "docker compose up --build -d"
 
 [[mcp_servers]]
 name = "github"
@@ -23,4 +25,22 @@ args = [
     "-y",
     "@modelcontextprotocol/server-filesystem",
     ".",
+]
+
+[[mcp_servers]]
+name = "playwright"
+transport = "stdio"
+command = "bun"
+args = [
+    "run",
+    "playwright:mcp",
+]
+
+[[mcp_servers]]
+name = "docker"
+transport = "stdio"
+command = "npx"
+args = [
+    "-y",
+    "@modelcontextprotocol/server-docker",
 ]
