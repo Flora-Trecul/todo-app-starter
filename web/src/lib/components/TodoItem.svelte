@@ -83,13 +83,25 @@
 				</div>
 			</form>
 		{:else}
-			<p
-				class="font-medium text-slate-900 break-words"
-				class:line-through={todo.completed}
-				class:text-slate-400={todo.completed}
-			>
-				{todo.title}
-			</p>
+			<div class="flex items-baseline gap-2">
+				<p
+					class="font-medium text-slate-900 break-words"
+					class:line-through={todo.completed}
+					class:text-slate-400={todo.completed}
+				>
+					{todo.title}
+				</p>
+				{#if todo.reminder_date !== null && todo.reminder_date !== undefined}
+					<span
+						class="text-amber-600"
+						title="Reminder set"
+					>
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+							<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.414-1.414L11 9.586V6z" clip-rule="evenodd" />
+						</svg>
+					</span>
+				{/if}
+			</div>
 			{#if todo.description}
 				<p
 					class="mt-1 text-sm text-slate-600 break-words"

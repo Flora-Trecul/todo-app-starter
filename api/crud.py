@@ -1,5 +1,7 @@
 """CRUD operations for the Todo model."""
 
+from datetime import datetime
+
 from sqlalchemy.orm import Session
 
 from models import Todo
@@ -45,3 +47,13 @@ def delete_todo(db: Session, todo_id: int) -> bool:
     db.delete(db_todo)
     db.commit()
     return True
+
+
+def get_todos_with_upcoming_reminders(db: Session, now: datetime) -> list[Todo]:
+    """Return todos with reminder_date in the future, ordered by reminder_date."""
+    return (
+        db.query(Todo)
+        .filter(Todo.reminder_date.isnot(None), Todo.reminder_date > now)
+        .order_by(Todo.reminder_date.asc())
+        .all()
+    )

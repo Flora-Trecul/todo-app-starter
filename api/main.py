@@ -1,5 +1,7 @@
 """FastAPI application entry point."""
 
+from datetime import datetime, timezone
+
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 
@@ -21,6 +23,13 @@ app = FastAPI(
 def list_todos(db: Session = Depends(get_db)):
     """List all todos."""
     return crud.get_todos(db)
+
+
+@app.get("/reminders", response_model=list[schemas.TodoResponse])
+def list_upcoming_reminders(db: Session = Depends(get_db)):
+    """List todos with upcoming reminders (reminder_date in the future)."""
+    now = datetime.now(timezone.utc)
+    return crud.get_todos_with_upcoming_reminders(db, now)
 
 
 @app.get("/todos/{todo_id}", response_model=schemas.TodoResponse)

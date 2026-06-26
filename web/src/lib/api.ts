@@ -23,5 +23,6 @@ export const api = {
 		request<Todo>('/todos', { method: 'POST', body: JSON.stringify(payload) }),
 	updateTodo: (id: number, payload: TodoUpdate) =>
 		request<Todo>(`/todos/${id}`, { method: 'PUT', body: JSON.stringify(payload) }),
-	deleteTodo: (id: number) => request<void>(`/todos/${id}`, { method: 'DELETE' })
+	deleteTodo: (id: number) => request<void>(`/todos/${id}`, { method: 'DELETE' }),
+	listUpcomingReminders: () => request<Todo[]>('/reminders')
 };

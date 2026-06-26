@@ -9,8 +9,9 @@ class TodoBase(BaseModel):
     """Shared fields for todo operations."""
 
     title: str = Field(..., min_length=1, max_length=200)
-    description: str | None = Field(None, max_length=500)
-    completed: bool = False
+    description: str | None = Field(default=None, max_length=500)
+    completed: bool = Field(default=False)
+    reminder_date: datetime | None = Field(default=None)
 
 
 class TodoCreate(TodoBase):
@@ -23,6 +24,7 @@ class TodoUpdate(BaseModel):
     title: str | None = Field(None, min_length=1, max_length=200)
     description: str | None = Field(None, max_length=500)
     completed: bool | None = None
+    reminder_date: datetime | None = None
 
 
 class TodoResponse(TodoBase):
