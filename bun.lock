@@ -1,0 +1,26 @@
+{
+  "lockfileVersion": 1,
+  "configVersion": 0,
+  "workspaces": {
+    "": {
+      "name": "briefs-todo-app-starter",
+      "devDependencies": {
+        "@playwright/mcp": "^0.0.76",
+        "playwright": "^1.61.1",
+      },
+    },
+  },
+  "packages": {
+    "@playwright/mcp": ["@playwright/mcp@0.0.76", "", { "dependencies": { "playwright": "1.61.0-alpha-1781023400000", "playwright-core": "1.61.0-alpha-1781023400000" }, "bin": { "playwright-mcp": "cli.js" } }, "sha512-ICcW6wAV+HoNEco19eni+JTVylCIIedruWkrRl2Rsv/qcGhBZLT/c0I1VounjIjSVSupw3pHmcr3CNCikTHTBQ=="],
+
+    "fsevents": ["fsevents@2.3.2", "", { "os": "darwin" }, "sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA=="],
+
+    "playwright": ["playwright@1.61.1", "", { "dependencies": { "playwright-core": "1.61.1" }, "optionalDependencies": { "fsevents": "2.3.2" }, "bin": { "playwright": "cli.js" } }, "sha512-DWnY5o3YbLWK4GovuAVwpqL+1VwGNdUGrRr++8j8PtQQzvAVZUIMjKQ90fY689sEJZJBbZVw1rXaOKSTitkzPQ=="],
+
+    "playwright-core": ["playwright-core@1.61.0-alpha-1781023400000", "", { "bin": { "playwright-core": "cli.js" } }, "sha512-UdtUd9qnCO0zvb8p3OvOZpelY6mA40mTb3NmWGuMtrD+hqqWuorWCPlSGwj7jw/LEB9AxvYLHTL1CJi2flvksg=="],
+
+    "@playwright/mcp/playwright": ["playwright@1.61.0-alpha-1781023400000", "", { "dependencies": { "playwright-core": "1.61.0-alpha-1781023400000" }, "optionalDependencies": { "fsevents": "2.3.2" }, "bin": { "playwright": "cli.js" } }, "sha512-8TRUG3IvwaAhuVm6k3C5vB7CwC5Fxq76DCCxOgPr6r1dpTedDwxlmdOBUkSZ0zxfxP14jcuPxi86/Trq4eA03w=="],
+
+    "playwright/playwright-core": ["playwright-core@1.61.1", "", { "bin": { "playwright-core": "cli.js" } }, "sha512-h7Qlt6m4REp25qvIdvbDtVmD4LqVXfpRxhORv9L0jzETM05p4fuPJ3dKyuSXQxDSbXnmS79HAgi9589lGSpLkg=="],
+  }
+}

@@ -11,9 +11,14 @@
   },
   "packageManager": "bun@1.1.45",
   "scripts": {
-
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:debug": "playwright test --debug",
+    "playwright:mcp": "playwright-mcp"
   },
   "devDependencies": {
-
+    "@playwright/mcp": "^0.0.76",
+    "playwright": "^1.61.1"
   }
 }
